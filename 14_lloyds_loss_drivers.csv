@@ -1,0 +1,47 @@
+year,rank,driver_name,driver_type,primary_lob,lloyds_loss_gbp_m,total_market_loss_usd_bn,notes,source
+2015,1,Tianjin Port Explosion,Man-made Event,Marine & Cargo,,1.5,Massive explosion at Chinese port; one of largest marine insurance losses on record,Lloyd's Annual Report 2015
+2015,2,Energy Sector / Oil Price Collapse,Attritional & Pricing,Energy,,,Oil prices fell from ~$100 to mid-$20s; energy class combined ratio 92.6%; widespread underwriting pressure,Lloyd's Annual Report 2015
+2015,3,Motor Underwriting Losses,Attritional & Pricing,Motor,,,Motor class combined ratio 111.5%; pricing pressure and elevated claims frequency,Lloyd's Annual Report 2015
+2015,4,Property & Casualty Pricing Pressure,Attritional & Pricing,Property & Casualty,,,Combined ratios exceeded 100% in property (103.4%) and casualty (102.7%); competitive excess capacity,Lloyd's Annual Report 2015
+2015,5,Marine Attritional Deterioration,Attritional & Pricing,Marine,,,Marine combined ratio 94.2%; post-Tianjin pricing; fleet overcapacity,Lloyd's Annual Report 2015
+2016,1,Fort McMurray Wildfire,Natural Catastrophe,Property,,3.8,Canada's costliest insured natural disaster at the time; major property syndicate losses,Lloyd's Annual Report 2016
+2016,2,Hurricane Matthew,Natural Catastrophe,Property & Casualty,,,Category 4 hurricane; US/Caribbean; part of £2.1bn major claims total for 2016,Lloyd's Annual Report 2016
+2016,3,Ogden Discount Rate Change,Reserve Strengthening,Motor & Liability,,,UK government reduced Ogden rate to -0.75%; forced motor and liability reserve strengthening across market,Lloyd's Annual Report 2016
+2016,4,Elevated Attritional Losses,Attritional & Pricing,All Lines,,,Attritional loss ratio 53.3%; continued premium pressure reducing margins; marine combined ratio 106.2%,Lloyd's Annual Report 2016
+2016,5,Sterling FX Impact,Investment Loss,All Lines,,,Post-Brexit sterling depreciation increased USD-denominated claim reserves; partially offset by FX gains on assets,Lloyd's Annual Report 2016
+2017,1,Hurricane Harvey,Natural Catastrophe,Property & Reinsurance,3900.0,30.0,Texas catastrophe; combined Harvey/Irma Lloyd's estimate £3.9bn; worst nat-cat year since 2011,Lloyd's Annual Report 2017
+2017,2,Hurricane Irma,Natural Catastrophe,Property & Reinsurance,,60.0,Strongest Atlantic hurricane on record; devastated Caribbean and Florida; included in £3.9bn Harvey/Irma estimate,Lloyd's Annual Report 2017
+2017,3,Hurricane Maria,Natural Catastrophe,Property & Reinsurance,900.0,30.0,Category 5 hit Puerto Rico; Lloyd's estimated loss £900m; widespread Caribbean destruction,Lloyd's Annual Report 2017
+2017,4,Attritional Loss Deterioration,Attritional & Pricing,All Lines,,,Attritional loss ratio rose to 58.9% from 53.3% in 2016; underlying underwriting unprofitable ex-catastrophe,Lloyd's Annual Report 2017
+2017,5,Multiple Secondary Catastrophes,Natural Catastrophe,Property,,,Mexico earthquakes and other events contributing to £4.5bn total major claims vs £2.1bn in 2016,Lloyd's Annual Report 2017
+2018,1,California Wildfires (Camp Fire etc.),Natural Catastrophe,Property,,17.0,Camp Fire alone costliest US wildfire on record; combined 2018 California fires market loss USD 15-17bn,Lloyd's Annual Report 2018
+2018,2,Typhoon Jebi,Natural Catastrophe,Property & Marine,,9.0,Costliest typhoon in Japanese history; USD 9bn insured; major property and marine impact in Asia-Pacific,Lloyd's Annual Report 2018
+2018,3,Hurricane Michael,Natural Catastrophe,Property & Casualty,,8.0,Category 5 at Florida landfall; major wind damage; USD 6-10bn insured losses,Lloyd's Annual Report 2018
+2018,4,Hurricane Florence,Natural Catastrophe,Property & Casualty,,5.0,Major flooding in Carolinas/Mid-Atlantic; USD 5bn insured losses,Lloyd's Annual Report 2018
+2018,5,Investment Market Downturn,Investment Loss,All Lines,,,Net investment return fell to £0.5bn from £1.8bn in 2017; market downturn reduced offsetting gains,Lloyd's Annual Report 2018
+2019,1,Typhoon Hagibis,Natural Catastrophe,Property,,9.0,Hit Kanto region including Tokyo; USD 8-10bn insured; largest single event of 2019,Lloyd's Annual Report 2019
+2019,2,Typhoon Faxai,Natural Catastrophe,Property,,6.5,Hit same Kanto region two weeks before Hagibis; USD 6-7bn insured; compound Japan typhoon effect,Lloyd's Annual Report 2019
+2019,3,Typhoon Jebi Reserve Development,Reserve Strengthening,Property & Marine,300.0,,Prior year claims deterioration from 2018 Typhoon Jebi; £300m additional reserve strengthening in 2019,Lloyd's Annual Report 2019
+2019,4,Casualty & Aviation Reserve Strengthening,Reserve Strengthening,Casualty & Aviation,,,Prior year reserve strengthening adding ~1.5 percentage points to combined ratio,Lloyd's Annual Report 2019
+2019,5,Reduced Prior Year Reserve Releases,Reserve Strengthening,All Lines,,,Only £232m released vs £976m in 2018; significantly less reserve cushion to absorb underwriting losses,Lloyd's Annual Report 2019
+2020,1,COVID-19 Pandemic,Man-made Event,Event Cancellation & Property & Credit,3400.0,,Net Lloyd's loss £3.4bn after reinsurance (gross £6.2bn); 13.3% of combined ratio; event cancellation 31% of COVID claims,Lloyd's Annual Report 2020
+2020,2,Record Atlantic Hurricane Season,Natural Catastrophe,Property & Reinsurance,,,28 insured events each costing more than £1bn; 5th worst year on record; includes Hurricanes Eta and Iota,Lloyd's Annual Report 2020
+2020,3,Property Combined Ratio Spike,Attritional & Pricing,Property,,,Property accident year combined ratio 135.4%; worst performing class; COVID BI plus hurricane season double impact,Lloyd's Annual Report 2020
+2020,4,Prior Year Reserve Strengthening,Reserve Strengthening,Casualty,300.0,,Casualty reserves strengthened £0.3bn; adverse development from 2017/2018 hurricane and typhoon years,Lloyd's Annual Report 2020
+2021,1,Hurricane Ida,Natural Catastrophe,Property & Casualty,,32.0,Costliest event of 2021; Louisiana/Gulf Coast plus New York flooding; USD 30-32bn insured market loss,Lloyd's Annual Report 2021
+2021,2,Winter Storm Uri (Texas Freeze),Natural Catastrophe,Property & Casualty,,15.0,Extreme cold and ice in Texas; power grid failures; widespread water damage and business interruption,Lloyd's Annual Report 2021
+2021,3,European Floods,Natural Catastrophe,Property,,13.0,Severe flooding in Germany/Belgium/Netherlands; USD 13bn insured plus additional convective storm losses,Lloyd's Annual Report 2021
+2021,4,Casualty Reserve Strengthening,Reserve Strengthening,Casualty,301.0,,£301m casualty reserve strengthening adding 1.4 percentage points to combined ratio; prior-year adverse development,Lloyd's Annual Report 2021
+2022,1,Investment Market Collapse,Investment Loss,All Lines,3100.0,,Bond market sell-off driven by rate rises; £3.1bn investment loss (-3.5% return); turned underwriting profit into pre-tax loss,Lloyd's Annual Report 2022
+2022,2,Ukraine War / Stranded Aircraft,Man-made Event,Aviation & Marine,1400.0,,400+ commercial aircraft stranded in Russia worth ~USD 10bn; ships trapped in Black Sea; Lloyd's net reserves £1.4bn,Lloyd's Annual Report 2022
+2022,3,Hurricane Ian,Natural Catastrophe,Property & Reinsurance,2000.0,,Florida/southeastern US; Lloyd's loss £2.0bn; total industry insured estimate USD 50-60bn,Lloyd's Annual Report 2022
+2023,1,Turkey / Syria Earthquake,Natural Catastrophe,Property,,5.5,Magnitude 7.8; deadliest earthquake in decades; total insured losses USD 5-6bn; low regional penetration limited impact,Lloyd's Annual Report 2023
+2023,2,Morocco Earthquake,Natural Catastrophe,Property,,,Magnitude 6.8; lower insured losses due to low regional insurance penetration,Lloyd's Annual Report 2023
+2023,3,Libya Floods,Natural Catastrophe,Property,,,Storm Daniel catastrophic flooding; low insured penetration; minimal Lloyd's impact,Lloyd's Annual Report 2023
+2023,4,Maui Wildfire (Hawaii),Natural Catastrophe,Property,,3.5,Deadliest US wildfire in over a century; USD 3-4bn insured losses; historic Lahaina destruction,Lloyd's Annual Report 2023
+2023,5,Attritional Claims Baseline,Attritional & Pricing,All Lines,,,Attritional loss ratio 48.3%; well-controlled in benign catastrophe year; overall CR 84.0% best since 2007,Lloyd's Annual Report 2023
+2024,1,Hurricanes Milton & Helene,Natural Catastrophe,Property & Reinsurance,2100.0,,Hurricane Milton £1.2bn plus Hurricane Helene £0.9bn; back-to-back Florida/Southeast US storms in Q3-Q4,Lloyd's Annual Report 2024
+2024,2,Baltimore Bridge Collapse (MV Dali),Man-made Event,Marine & Specialty,400.0,3.0,Francis Scott Key Bridge collapse; one of largest marine losses in history; bridge damage plus liability plus BI,Lloyd's Annual Report 2024
+2024,3,Ukraine War Aviation Reserve Strengthening,Reserve Strengthening,Aviation,556.0,,Additional £556m reserve increase in 2024; cumulative Ukraine aviation reserves reach £2.4bn total,Lloyd's Annual Report 2024
+2024,4,Specialty Reinsurance Deterioration,Attritional & Pricing,Specialty Reinsurance,,,Specialty reinsurance combined ratio 106.2% vs 83.5% in 2023; worst-performing segment by 22.7 percentage points,Lloyd's Annual Report 2024
+2024,5,Casualty Reinsurance Weakening,Reserve Strengthening,Casualty Reinsurance,,,Casualty reinsurance combined ratio 97.8%; prior-year adverse development and social inflation pressures,Lloyd's Annual Report 2024

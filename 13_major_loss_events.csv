@@ -1,0 +1,166 @@
+loss_name,month_year,industry_loss,economic_loss,loss_type,notes,year
+LA wildfires,Jan-25,$40 billion,$53 billion,Nat Cat,In 2025 dollars,2025
+U.S. SCS activity,Mar & May-25,$18-26 billion,,Nat Cat,In 2025 dollars,2025
+Hurricane Melissa,Oct-25,$3-5 billion,$10 billion+,Nat Cat,In 2025 dollars,2025
+Taiwan Earthquake,Jan-25,$1-2 billion,,Nat Cat,In 2025 dollars,2025
+Myanmar Earthquake,Mar-25,$1-1.5 billion,$10 billion+,Nat Cat,In 2025 dollars,2025
+Cyclone Alfred,Feb-25,$1.25 billion,,Nat-Cat,In 2025 dollars,2025
+Windstorm Éowyn,Jan-25,$500 million - $1 billion,,Nat Cat,In 2025 dollars,2025
+Hurricane Milton,Oct-24,$30-50 billion,$160-180 billion,Nat Cat,In 2024 dollars,2024
+Hurricane Helene,Sep-24,$8-14 billion,$70 billion,Nat Cat,In 2024 dollars,2024
+European Floods,Sep-24,$2.2 billion,$10 billion+,Nat Cat,In 2024 dollars,2024
+European Floods,May-24,$1.96 billion,$10 billion+,Nat Cat,In 2024 dollars,2024
+Japan Earthquake,Jan-24,$1.8 billion - $6.4 billion,,Nat Cat,In 2023 dollars,2024
+CrowdStrike outage,Jul-24,$300 million - $1.5 billion,$10 billion+,Man-made,In 2024 dollars,2024
+Turkey and Syria earthquakes,Feb-23,$6 billion,$45 billion+,Nat Cat,In 2023 dollars,2023
+"U.S. Tornado, winter
+storm",Mar/Apr-23,$4.3 billion,$5.5 billion,Nat Cat,In 2023 dollars,2023
+U.S. Severe Storm,Mar-23,$4.2 billion,$6 billion,Nat Cat,In 2023 dollars,2023
+Hurricane Otis,Oct-23,$4 billion,$12 billion,Nat Cat,In 2023 dollars,2023
+"U.S. Tornado series,
+severe storm",Jun-23,$3.9 billion,$5.6 billion,Nat Cat,In 2023 dollars,2023
+Maui wildfire,Aug-23,$2.5 billion - $4 billion,$5 billion - $6 billion,Nat Cat,In 2023 dollars,2023
+Typhoon Doksuri (Egay),Jul/Aug-23,$2 billion,$25 billion,Nat Cat,In 2023 dollars,2023
+"Flood, flash flood,
+severe storm",May-23,$1.1 billion,$10 billion+,Nat Cat,In 2023 dollars,2023
+Cyclone Gabrielle,Jan/Feb-23,$700 million,$8 billion,Nat Cat,In 2023 dollars,2023
+Morocco Earthquake,Sep-23,$0.3 billion,$7 billion,Nat Cat,In 2023 dollars,2023
+Hurricane Ian,Sep-22,$50 billion - $65 billion,$115 billion,Nat Cat,In 2022 dollars,2022
+European windstorms Dudley (Ylenia) and Eunice (Zeynep),Feb-22,$4.3 billion,$5.9 billion,Nat Cat,In 2022 dollars,2022
+Eastern Australia floods,Feb/Mar-22,$4 billion,$6.8 billion,Nat Cat,In 2022 dollars,2022
+"Honshu, Japan earthquake",Mar-22,$2.8 billion,$8.5 billion,Nat Cat,In 2022 dollars,2022
+U.S. derecho,May-22,$2.2 billion,$2.7 billion,Nat Cat,In 2022 dollars,2022
+European storms Petra and Qiara,Jun-22,$2.1 billion,$2.6 billion,Nat Cat,In 2022 dollars,2022
+Hurricane Fiona,Sep-22,$590 million,$2.9 billion,Nat Cat,In 2022 dollars,2022
+Southern China floods,Jun-22,$300 million,$5 billion,Nat Cat,In 2022 dollars,2022
+Pakistan floods,Jun/Oct-22,$100 million,$15 billion,Nat Cat,In 2022 dollars,2022
+Hurricane Ida,Aug-21,$30 billion- $44 billion,,Nat Cat,In 2021 dollars,2021
+Winter storm Uri,Feb-21,$15 billion- $20 billion,,Nat Cat,In 2021 dollars,2021
+Low pressure system Bernd,Jul-21,~$13 billion,~$54 billion,Nat Cat,In 2021 dollars,2021
+"Fukushima, Japan earthquake",Feb-21,$2.63 billion,,Nat Cat,In 2021 dollars,2021
+"Henan, China floods",Jun-21,$1.7 billion,$16.5 billion,Nat Cat,In 2021 dollars,2021
+South Africa riots,Jul-21,$600 million - $1 billion,,Man-made,In 2021 dollars,2021
+Hurricane Laura,Aug-20,$9 billion - $13 billion,,Nat Cat,"In 2020 dollars
+Onshore losses only",2020
+Hurricane Zeta,Oct-20,$3 billion - $5 billion,,Nat Cat,"In 2020 dollars
+Onshore losses only",2020
+Hurricane Delta,Oct-20,$3 billion - $5 billion,,Nat Cat,"In 2020 dollars
+Including NFIP losses",2020
+Hurricane Isaias,Jul-20,$3 billion - $5 billion,,Nat Cat,In 2020 dollars,2020
+Hurricane Sally,Sep-20,$2 billion - $3.5 billion,,Nat Cat,"In 2020 dollars
+Including NFIP losses",2020
+Typhoon Hagibis,Oct-19,$7 billion - $16 billion,,Nat Cat,Estimate range based on modelled projections of loss.,2019
+Typhoon Faxai,Sep-19,$5 billion - $9 billion,,Nat Cat,,2019
+Hurricane Dorian,Sep-19,$4 billion - $8.5 billion,,Nat Cat,,2019
+"U.S. convective weather (hail, tornado, winds)",May-19,$2.5 billion,$3.3 billion,Nat Cat,,2019
+U.S. & Canada convective storm & tornadoes,Feb-19,$1.1 billion,$1.6 billion,Nat Cat,,2019
+European windstorm Eberhard,Mar-19,$1.02 billion - $1.7 billion,,Nat Cat,,2019
+"Townsville floods, Queensland, Australia",Feb-19,$900 million,$2 billion,Nat Cat,,2019
+European severe storm & hail,Jun-19,$800 million,$1 billion,Nat Cat,,2019
+U.S. severe storm & flood,Mar-19,$800 million,$3 billion,Nat Cat,,2019
+Hurricane Barry,Jul-19,$500 million,,Nat Cat,Including NFIP losses,2019
+Typhoon Jebi,Sep-18,~$15 billion,$20 billion,Nat Cat,,2018
+Camp wildfire,Nov-18,$12.5 billion,$16.5 billion,Nat Cat,"Cause tbc, possibly man-made",2018
+Hurricane Michael,Oct-18,$11 billion,$25 billion,Nat Cat,,2018
+Hurricane Florence,Sep-18,$5.5 billion,$24 billion,Nat Cat,"(ex-NFIP, ~$7bn inc. NFIP)",2018
+Woolsey wildfire,Nov-18,$4.5 billion,$5.8 billion,Nat Cat,"Cause tbc, possibly man-made",2018
+Typhoon Trami,Sep-18,$3 billion,$4.5 billion,Nat Cat,,2018
+Japanese extreme rainfall & floods,Jul-18,$2.7 billion,$10 billion,Nat Cat,,2018
+European windstorm Friederike,Jan-18,$2.1 billion,$2.8 billion,Nat Cat,,2018
+"U.S. convective weather (hail, tornado, winds)",May-18,$2 billion,,Nat Cat,,2018
+Colorado hail & convective weather,Jun-18,$1.8 billion,$2.3 billion,Nat Cat,,2018
+U.S. winter storm,Mar-18,$1.6 billion,$2.2 billion,Nat Cat,,2018
+"U.S. convective weather (hail, tornado, winds)",Mar-18,$1.6 billion,$2 billion,Nat Cat,,2018
+"Typhoon Mangkhut (Philippines, HK, China)",Sep-18,$1.5 billion,$6 billion,Nat Cat,,2018
+"Ituango dam loss, Colombia",May-18,$1.2 billion - $1.8 billion,,Man-made,Latest estimate based on market sources,2018
+U.S. & Canada winter & convective weather,Apr-18,$1.1 billion,$1.4 billion,Nat Cat,,2018
+"Osaka, Japan earthquake",Jun-18,$1 billion,$7 billion,Nat Cat,,2018
+European windstorm Burglind,Jan-18,$900 million,$1.2 billion,Nat Cat,,2018
+Lurssen shipyard fire  (Germany),Oct-18,$700 million,,Man-made,,2018
+"Hela Province, Papua New Guinea earthquake",Feb-18,$290 million,$530 million,Nat Cat,In 2018 dollars,2018
+Hurricane Irma,Sep-17,$32 billion,$67 billion,Nat Cat,,2017
+Hurricane Maria,Sep-17,$30 billion,$63 billion,Nat Cat,,2017
+Hurricane Harvey,Aug-17,$30 billion,$85 billion,Nat Cat,,2017
+Tubbs wildfire,Oct-17,$8.5 billion,,Nat Cat,Deemed ignited by private electrical system. No liability for utilities.,2017
+Petya / NotPetya cyber attack,Jun-17,$3 billion - $3.3 billion,,Man-made,,2017
+Atlas wildfire,Oct-17,$2.7 billion,,Nat Cat,"Cause tbc, possibly man-made",2017
+"Denver, CO hail storm",May-17,$2.5 billion,$3.1 billion,Nat Cat,,2017
+Mexico earthquake,Sep-17,$2 billion,$6 billion,Nat Cat,,2017
+Thomas wildfire,Dec-17,$1.8 billion,,Nat Cat,Southern California Edison's power lines deemed an ignition source.,2017
+Minnesota hailstorm,Jun-17,$1.6 billion,,Nat Cat,,2017
+"U.S. convective weather (hail, tornado, winds)",Feb-17,$1.4 billion,,Nat Cat,,2017
+Cyclone Debbie (Australia),Mar-17,$1.3 billion,,Nat Cat,,2017
+"Typhoon Hato (China, Hong Kong, Vietnam)",Aug-17,$1.1 billion,,Nat Cat,,2017
+"U.S. convective weather (hail, tornado, winds)",Jun-17,$1.1 billion,,Nat Cat,,2017
+Frost (Europe),Apr-17,$1 billion,,Nat Cat,,2017
+Iran–Iraq border earthquake,Nov-17,$10 million,$800 million,Nat Cat,In 2017 dollars,2017
+"Kumamoto earthquakes, Japan",Apr-16,$6 billion,,Nat Cat,,2016
+Hurricane Matthew,Oct-16,$4 billion,$4.8 billion,Nat Cat,,2016
+"Convective weather, flooding in Louisiana, U.S",Aug-16,$3.1 billion,,Nat Cat,,2016
+"Hailstorm in San Antonio, TX",Apr-16,$2.9 billion,,Nat Cat,,2016
+Storms Elvira and Friederike,Jun-16,$2.8 billion,,Nat Cat,"Germany, France",2016
+Fort McMurray wildfires,Jun-16,$2.7 billion,$7.4 billion,Nat Cat,"Alberta, CA",2016
+"Earthquake in Kaikoura, New Zealand",Nov-16,$1.7 billion - $2.4 billion,,Nat Cat,Mw 7.8,2016
+Jubilee oil field FPSO turrett damage and shutdown,Mar-16,$1.7 billion,,Man-made,Latest estimate based on market sources,2016
+"Hailstorm, thunderstorms in North Texas",Mar-16,$1.6 billion,,Nat Cat,,2016
+"Convective weather in Colorado / Wyoming, U.S",Jul-16,$1.1 billion,,Nat Cat,,2016
+"Convective weather, flash floods in Western U.S",Apr-16,$1.1 billion,,Nat Cat,,2016
+"Flash flood, river flood in Houston, U.S",Apr-16,$1 billion,,Nat Cat,,2016
+"Port of Tianjin, China explosions",Aug-15,$2.5 billion to $3.5 billion,,Man-made,,2015
+Convective weather in Northeastern U.S,Feb-15,$2 billion,,Nat Cat,,2015
+"Convective weather, severe flooding in Texas and Oklahoma, U.S",May-15,$1.4 billion,,Nat Cat,,2015
+"Convective weather, flash floods",Apr-15,$1.2 billion,,Nat Cat,,2015
+Typhoon Goni,Aug-15,$1.1 billion,,Nat Cat,"Japan, Philippines, North Korea",2015
+"Floods in UK, Ireland",Dec-15,$1 billion,,Nat Cat,Caused by Storms Eva and Frank,2015
+Winter Storm Niklas,Mar-15,$1 billion,,Nat Cat,"Germany, Netherlands, et. al.",2015
+"U.S thunderstorms, large hail",May-14,$2.9 billion,,Nat Cat,,2014
+Snow storm,Feb-14,$2.5 billion,,Nat Cat,Japan,2014
+Wind and hailstorm Ella,Jun-14,$2.1 billion,,Nat Cat,"France, Germany, Belgium",2014
+Hurricane Odile,Sep-14,$1.7 billion,,Nat Cat,Mexico,2014
+U.S winter storm,Jan-14,$1.6 billion,,Nat Cat,,2014
+"U.S thunderstorms, large hail, tornadoes",Jun-14,$1.2 billion,,Nat Cat,,2014
+"U.S thunderstorms, large hail, 83 tornadoes, flash floods",Apr-14,$1.2 billion,,Nat Cat,,2014
+"U.S severe storms, large hail, tornadoes",Apr-14,$1 billion,,Nat Cat,,2014
+Floods,Jun-13,$4.1 billion,,Nat Cat,"Germany, Czech Republic, Austria, Slovakia",2013
+Hailstorms,Jul-13,$3.8 billion,,Nat Cat,"Germany, France",2013
+"U.S thunderstorms, tornadoes, hail",Mar-13,$1.6 billion,,Nat Cat,,2013
+"Typhoon Haiyan, storm surge",Nov-13,$1.4 billion,,Nat Cat,"Philippines, Vietnam, China, Palau",2013
+Windstorm Christian (St Jude),Oct-13,$1.4 billion,,Nat Cat,"Germany, Denmark, Netherlands, UK, Sweden, Belgium",2013
+"U.S severe thunderstorms, tornadoes (EF5 tornado in Moore, OK)",May-13,$1.3 billion,,Nat Cat,,2013
+"Winter storm, ice, tornadoes, heavy rains",Apr-13,$1.2 billion,,Nat Cat,,2013
+Typhoon Fitow,Sep-13,$1.1 billion,,Nat Cat,"China, Japan",2013
+Windstorm Xaver,Dec-13,$1 billion,,Nat Cat,"UK, Germany, Netherlands, Norway, Sweden",2013
+Hurricane Sandy,Oct-12,$31 billion,,Nat Cat,In 2017 dollars,2012
+Drought in the Corn Belt,Jul-12,$11 billion,,Nat Cat,U.S,2012
+"Thunderstorms, large hail, tornadoes",Apr-12,$2.5 billion,,Nat Cat,U.S,2012
+"Severe storms, tornadoes",Mar-12,$2.5 billion,,Nat Cat,U.S,2012
+"U.S Derecho storm with tornadoes, hail",Jun-12,$2 billion,,Nat Cat,Winds up to 146 km/h,2012
+"Thunderstorms, hail, tornadoes",May-12,$1.7 billion,,Nat Cat,U.S,2012
+Hurricane Isaac,Aug-12,$1.6 billion,,Nat Cat,"U.S, et al",2012
+"Earthquakes, italy",May-12,$1.6 billion,,Nat Cat,"(MW 5.9 and MW 5.7), aftershocks",2012
+"Thunderstorms, large hail, tornadoes",Jun-12,$1 billion,,Nat Cat,U.S,2012
+"Earthquake & tsunami in Tohoku, Japan",Mar-11,$38.2 billion,,Nat Cat,In 2017 dollars,2011
+"Canterbury, NZ earthquakes",Feb-11,$17 billion,,Nat Cat,In 2016 dollars,2011
+Thailand flooding,Jul-11,$16 billion,,Nat Cat,In 2016 dollars,2011
+"Severe storms, tornadoes",Apr-11,$7.3 billion,,Nat Cat,U.S,2011
+"Severe storms, tornadoes",May-11,$7 billion,,Nat Cat,U.S,2011
+"Hurricane Irene, torrential rainfall, extensive flooding",Aug-11,$5.3 billion,,Nat Cat,U.S,2011
+Floods caused by heavy rains,Jan-11,$2.2 billion,,Nat Cat,Australia,2011
+Earthquakes,Jun-11,$2 billion,,Nat Cat,MW 5.2 and MW 6.0,2011
+"U.S thunderstorms, hail, tornadoes",Apr-11,$2 billion,,Nat Cat,Thunderstorm winds up to 210 km/h,2011
+"Thunderstorm, tornadoes, hail",Apr-11,$1.5 billion,,Nat Cat,Thunderstorm winds up to 275 km/h,2011
+"Storms, tornadoes",Apr-11,$1.4 billion,,Nat Cat,"Storm winds up to 260 km/h, >240 tornadoes",2011
+"Storms, hail, tornadoes, floods",Jun-11,$1.3 billion,,Nat Cat,Storm winds up to 113 km/h,2011
+"Tropical Cyclone Yasi, Australia",Feb-11,$1.3 billion,,Nat Cat,Winds up to 240 km/h,2011
+Typhoon Roke,Sep-11,$1.2 billion,,Nat Cat,Japan,2011
+"Groundhog Day Blizzard winter storm, heavy snowfall",Jan-11,$1 billion,,Nat Cat,U.S,2011
+Hurricane Ike,Sep-08,$23 billion,,Nat Cat,In 2017 dollars,2008
+Hurricane Katrina,Aug-05,$82 billion,,Nat Cat,In 2017 dollars,2005
+Hurricane Ivan,Sep-04,$16.4 billion,,Nat Cat,In 2016 dollars,2004
+Hurricane Charley,Aug-04,$9 billion,,Nat Cat,In 2008 dollars,2004
+September 11th terror attacks in U.S.,Sep-01,$26 billion,,Man-made,In 2017 dollars,2001
+"Northridge, California earthquake",Jan-94,$25 billion,,Nat Cat,In 2017 dollars,1994
+Hurricane Andrew,Aug-92,$27.8 billion,,Nat Cat,In 2017 dollars,1992
+"Typhoon Mireille, Japan",Sep-91,$9 billion,,Nat Cat,In 2008 dollars,1991
+Piper Alpha oil platform explosion,Jul-88,$1.8 billion,,Man-made,In 2013 dollars,1988
+Global SCS,Throughout 24,$51-64 billion,,Nat Cat,in 2024 dollars,0

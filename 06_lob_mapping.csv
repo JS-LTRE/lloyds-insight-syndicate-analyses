@@ -1,0 +1,44 @@
+Syndicate COB,Harmonised LOB,Aggregated LOB,LOB4
+Accident and health,Accident and health,Casualty,Casualty
+Aviation,MAT,MAT,Specialty
+Contingency,Pecuniary loss,Casualty,Casualty
+Credit and political risk,Pecuniary loss,Casualty,Casualty
+Credit and suretyship,Pecuniary loss,Casualty,Casualty
+Cyber,Pecuniary loss,Casualty,Casualty
+Energy,Energy,Energy,Specialty
+Energy marine,Energy,Energy,Specialty
+Energy marine and non marine,Energy,Energy,Specialty
+Energy non marine,Energy,Energy,Specialty
+Engineering and MPE,Property,Property,Property
+Enterprise Risk,Third party liability,Casualty,Casualty
+Financial Institutions,Third party liability,Casualty,Casualty
+Fire and other damage to property,Property,Property,Property
+International Property,Property,Property,Property
+Legal expenses,Pecuniary loss,Casualty,Casualty
+Life,Life,Life,Life
+MAT,MAT,MAT,Specialty
+MGA Insurance,Property,Property,Property
+Marine,MAT,MAT,Specialty
+Marine and Energy,MAT,MAT,Specialty
+Marine and Transport,MAT,MAT,Specialty
+"Marine, Aviation and Transport Miscellaneous",MAT,MAT,Specialty
+"Marine, aviation and transport",MAT,MAT,Specialty
+Miscellaneous,Pecuniary loss,MAT,Specialty
+Motor,Motor,Motor,Specialty
+Motor (other classes),Motor,Motor,Specialty
+Motor (third party liability),Motor,Motor,Specialty
+Motor (third-party liability),Motor,Motor,Specialty
+Operational Power,Property,Property,Property
+Other,Pecuniary loss,MAT,Specialty
+Pecuniary loss,Pecuniary loss,MAT,Specialty
+Political Risks and Terrorism,Pecuniary loss,MAT,Specialty
+"Political, accident & contingency",Pecuniary loss,MAT,Specialty
+Professional Indemnity,Third party liability,Casualty,Casualty
+Reinsurance,Reinsurance,Reinsurance,Reinsurance
+Reinsurance acceptances,Reinsurance,Reinsurance,Reinsurance
+Reinsurance run-off,Reinsurance,Reinsurance,Reinsurance
+Specialty,Third party liability,Casualty,Casualty
+Third party liability,Third party liability,Casualty,Casualty
+Third-party liability,Third party liability,Casualty,Casualty
+Transport,MAT,MAT,Specialty
+US Property,Property,Property,Property
