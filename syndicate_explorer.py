@@ -7,7 +7,7 @@ import os
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 
-st.set_page_config(page_title="Lloyd's Insight and Syndicate Analyses", layout="wide", page_icon="🏦")
+st.set_page_config(page_title="Lloyd's Insight and Syndicate Analysis", layout="wide", page_icon="🏦")
 
 components.html("""
 <script>
@@ -159,7 +159,7 @@ yr_range = st.sidebar.slider("Year Range", year_min, year_max,
 
 # ── MARKET VIEW ───────────────────────────────────────────────────────────────
 if view_mode == "Market":
-    st.title("Lloyd's Insight and Syndicate Analyses")
+    st.title("Lloyd's Insight and Syndicate Analysis")
     st.header("Market View")
 
     def _parse_loss_bn(s):
@@ -441,7 +441,7 @@ if view_mode == "Market":
 
 # ── SYNDICATE VIEW ────────────────────────────────────────────────────────────
 if not sel_synd:
-    st.title("Lloyd's Insight and Syndicate Analyses")
+    st.title("Lloyd's Insight and Syndicate Analysis")
     st.header("Syndicate View")
     st.info("Select one or more syndicates (or a managing agent) in the sidebar to get started.")
     st.stop()
@@ -452,7 +452,7 @@ dseg = seg[(seg["syndicate"].isin(sel_synd)) & (seg["year"].between(*yr_range))]
 multi = len(sel_synd) > 1
 
 # ── Title ─────────────────────────────────────────────────────────────────────
-st.title("Lloyd's Insight and Syndicate Analyses")
+st.title("Lloyd's Insight and Syndicate Analysis")
 if multi:
     st.header(f"Syndicate View — {len(sel_synd)} syndicates selected")
 else:
