@@ -80,6 +80,11 @@ all_agents = sorted(kpi["managing_agent"].dropna().unique())
 all_synd   = sorted(kpi["syndicate"].unique())
 _synd_set  = set(all_synd)
 
+_synd_agent = kpi.sort_values("year").groupby("syndicate")["managing_agent"].last()
+def _synd_label(s):
+    agent = _synd_agent.get(s, "")
+    return f"{agent}-{s}" if agent else str(s)
+
 # ── Initialise session state from query params (once per browser session) ─────
 if "qp_initialized" not in st.session_state:
     qp = st.query_params
@@ -148,10 +153,12 @@ if search_mode == "Managing Agent":
     sel_synd = st.sidebar.multiselect("Syndicate(s)", avail_synd,
                                       default=avail_synd if sel_agents else [],
                                       key="filter_synd", disabled=_market,
+                                      format_func=_synd_label,
                                       on_change=_sync_qp)
 else:
     sel_synd = st.sidebar.multiselect("Syndicate(s)", all_synd,
                                       key="filter_synd", disabled=_market,
+                                      format_func=_synd_label,
                                       on_change=_sync_qp)
 
 yr_range = st.sidebar.slider("Year Range", year_min, year_max,
@@ -437,6 +444,64 @@ if view_mode == "Market":
     st.caption("_Default view shows the central 90% of syndicates. Use the chart toolbar to zoom out and reveal outliers._")
     st.plotly_chart(fig, use_container_width=True)
 
+    st.divider()
+
+    # ── Boxplot: Syndicate Pre-tax Margin Distribution by Year ───────────────
+    st.markdown("### Syndicate Pre-tax Margin Distribution by Year")
+    st.caption("Each box shows the market distribution of syndicate pre-tax margins. "
+               "Points are individual syndicates — hover to identify.")
+
+    with st.expander("How to read this chart"):
+        st.markdown("""
+**Each box summarises the spread of syndicate pre-tax margins for that year:**
+
+| Element | What it shows |
+|---|---|
+| **Middle line** | Median — half the market is above this, half below |
+| **Box (IQR)** | The middle 50% of syndicates (25th to 75th percentile) |
+| **Whiskers** | Extend to 1.5× the IQR — the typical range excluding outliers |
+| **Points beyond whiskers** | Outliers — syndicates with unusually high or low margins |
+| **Individual dots** | Every syndicate — hover to see name and exact margin |
+
+A **taller box** means greater dispersion across the market that year. A **box sitting above zero** means the majority of syndicates were profitable. Years where the box dips below zero indicate widespread underwriting stress across the market.
+
+---
+**Pre-tax Margin formula:** Result Before Tax ÷ Net Earned Premium × 100
+
+_Result Before Tax includes underwriting profit, investment income, FX gains/losses, and other non-technical income._
+        """)
+
+    box_data = kpi.copy()
+    box_data["label"] = box_data["syndicate"].astype(str) + " – " + box_data["managing_agent"]
+
+    fig = go.Figure()
+    fig.add_trace(go.Box(
+        x=box_data["year"],
+        y=box_data["pretax_margin"],
+        customdata=box_data[["label", "pretax_margin"]].values,
+        boxpoints="all",
+        jitter=0.4,
+        pointpos=0,
+        marker=dict(size=5, opacity=0.5, color="steelblue"),
+        line=dict(color="steelblue"),
+        fillcolor="rgba(70,130,180,0.15)",
+        hovertemplate=(
+            "<b>%{customdata[0]}</b><br>"
+            "Pre-tax Margin: %{customdata[1]:.1f}%<br>"
+            "Year: %{x}<extra></extra>"
+        ),
+        name="Syndicates",
+    ))
+    fig.add_hline(y=0, line_dash="dash", line_color="red", opacity=0.5,
+                  annotation_text="Break-even", annotation_position="right")
+    fig.update_layout(
+        height=550,
+        yaxis=dict(title="Pre-tax Margin (%)", range=[-50, 100]),
+        xaxis=XAXIS_YEARS,
+        showlegend=False,
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
     st.stop()
 
 # ── SYNDICATE VIEW ────────────────────────────────────────────────────────────
@@ -492,6 +557,7 @@ c3.metric("Pre-tax Result", fmt_gbp(snap["result_before_tax"]))
 c4.metric("Combined Ratio", f"{snap['combined_ratio']:.1f}%")
 c5.metric("Loss Ratio",     f"{snap['net_loss_ratio']:.1f}%")
 c6.metric("Pre-tax Margin", f"{snap['pretax_margin']:.1f}%")
+c6.markdown("<span style='font-size:10px;font-style:italic;color:grey'>Includes Investment Income</span>", unsafe_allow_html=True)
 
 st.divider()
 
@@ -889,33 +955,6 @@ with tab4:
         st.plotly_chart(fig, use_container_width=True)
 
     with col_b:
-        st.markdown("**Return on Assets (%)**")
-        fig = go.Figure()
-        for s in sel_synd:
-            d   = df[df["syndicate"] == s]
-            lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
-            fig.add_trace(go.Scatter(x=d["year"], y=d["roa"], name=lbl,
-                                     mode="lines+markers", line=dict(color=COLOR_MAP[s])))
-        fig.add_hline(y=0, line_dash="dash", line_color="grey")
-        fig.update_layout(height=350, yaxis_title="ROA (%)",
-                          legend=dict(font_size=10), xaxis=XAXIS_YEARS)
-        st.plotly_chart(fig, use_container_width=True)
-
-    col_c, col_d = st.columns(2)
-
-    with col_c:
-        st.markdown("**RI Assets as % of Total Assets**")
-        fig = go.Figure()
-        for s in sel_synd:
-            d   = df[df["syndicate"] == s]
-            lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
-            fig.add_trace(go.Scatter(x=d["year"], y=d["ri_to_total_assets"], name=lbl,
-                                     mode="lines+markers", line=dict(color=COLOR_MAP[s])))
-        fig.update_layout(height=320, yaxis_title="RI Assets / Total Assets (%)",
-                          legend=dict(font_size=10), xaxis=XAXIS_YEARS)
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col_d:
         st.markdown("**Claims Outstanding (£m)**")
         fig = go.Figure()
         for s in sel_synd:
@@ -925,6 +964,22 @@ with tab4:
                                      name=lbl, mode="lines+markers",
                                      line=dict(color=COLOR_MAP[s])))
         fig.update_layout(height=320, yaxis_title="Claims Outstanding (£m)",
+                          legend=dict(font_size=10), xaxis=XAXIS_YEARS)
+        st.plotly_chart(fig, use_container_width=True)
+
+    col_c, col_d = st.columns(2)
+
+    with col_c:
+        st.markdown("**Total Assets / Net Earned Premium (x)**")
+        st.caption("Formula: Total Assets ÷ Net Earned Premium")
+        fig = go.Figure()
+        for s in sel_synd:
+            d   = df[df["syndicate"] == s]
+            lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
+            ratio = d["total_assets"] / d["net_earned_premium"]
+            fig.add_trace(go.Scatter(x=d["year"], y=ratio, name=lbl,
+                                     mode="lines+markers", line=dict(color=COLOR_MAP[s])))
+        fig.update_layout(height=350, yaxis_title="Total Assets / NEP (x)",
                           legend=dict(font_size=10), xaxis=XAXIS_YEARS)
         st.plotly_chart(fig, use_container_width=True)
 
