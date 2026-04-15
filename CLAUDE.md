@@ -3,7 +3,7 @@
 ## Project Overview
 
 A Streamlit web application for interactive analysis of Lloyd's of London syndicate
-historical performance data (2015–2024). Covers 156 syndicates across 10 years with
+historical performance data (2015–2025). Covers 162 syndicates across 11 years with
 P&L, balance sheet, segmental line-of-business, and market benchmarking views.
 
 The app runs entirely from pre-generated CSV files — no database required.
@@ -22,6 +22,12 @@ The following files must exist before proceeding:
 **Application**
 - `syndicate_explorer.py` — main Streamlit app
 - `nginx/nginx.conf` — nginx reverse proxy config
+
+**Data processing**
+- `process_data.py` — regenerates CSV files 01–12 from the source Excel file
+
+**Source Excel file**
+- `Longtail_ICMRData_2015-2025_2026-04-15.xlsx` — latest ICMR data (update filename each year)
 
 **Data files (CSV)**
 - `07_whole_account_kpis.csv`
@@ -125,20 +131,33 @@ Browser → nginx (port 8502) → Streamlit app (internal port 8501)
 
 ## Data dictionary
 
+### Raw / intermediate files (not loaded by app)
+
+| CSV file | Contents |
+|---|---|
+| `01_whole_account_gbpk.csv` | Whole account P&L and balance sheet, GBP thousands |
+| `02_whole_account_orig_ccy.csv` | Whole account in original reporting currency |
+| `03_segmental_gbpk.csv` | Segmental (LOB) underwriting data, GBP thousands |
+| `04_segmental_orig_ccy.csv` | Segmental data in original reporting currency |
+| `05_exchange_rates.csv` | Average and year-end FX rates (USD, EUR → GBP) |
+| `06_lob_mapping.csv` | Syndicate COB → Harmonised LOB → Aggregate LOB mapping |
+
+### App data files (loaded by `syndicate_explorer.py`)
+
 | CSV file | Contents |
 |---|---|
 | `07_whole_account_kpis.csv` | P&L + balance sheet + derived ratios per syndicate/year |
-| `08_segmental_kpis.csv` | Underwriting data by line of business |
+| `08_segmental_kpis.csv` | Underwriting data by line of business + derived ratios |
 | `09_market_annual_summary.csv` | Market-wide annual aggregates |
 | `11_lob_market_share_by_year.csv` | LOB market share % by year |
 | `12_syndicate_percentile_rankings.csv` | Annual net profit percentile bucket per syndicate |
 | `13_major_loss_events.csv` | Major global insured loss events (1988–2025) sourced from reinsurancene.ws |
-| `14_lloyds_loss_drivers.csv` | Top Lloyd's-specific loss drivers per year (2015–2024), sourced from Lloyd's Annual Reports |
+| `14_lloyds_loss_drivers.csv` | Top Lloyd's-specific loss drivers per year (2015–2025), sourced from Lloyd's Annual Reports |
 | `15_Synd_Asset_Return_converted.csv` | Syndicate financial investment cost and asset return (2024–2025), converted to GBP thousands |
 | `16_fx_rate_used.csv` | FX rates (average annual) used to convert USD/EUR → GBP, confirmed against files 01 and 02 |
 
 All monetary values are in **GBP thousands** unless otherwise noted.
-Years covered: **2015–2024** (files 07–14); **2024–2025** (file 15).
+Years covered: **2015–2025** (files 07–14); **2024–2025** (file 15).
 
 ---
 
@@ -153,9 +172,33 @@ Years covered: **2015–2024** (files 07–14); **2024–2025** (file 15).
 | Return on Assets | Result Before Tax ÷ Total Assets × 100 |
 | Total Assets / NEP | Total Assets ÷ Net Earned Premium |
 | Asset Return | Technical Investment Income ÷ Financial Investments × 100 |
+| Gross Loss Ratio | \|Gross Incurred\| ÷ Gross Earned Premium × 100 |
+| Net UW Margin | Net UW Result ÷ Gross Earned Premium × 100 |
+| Percentile Rank | Syndicate rank by pretax_margin within year ÷ total syndicates in year × 100 |
 
 Note: **Pre-tax Margin includes investment income** (Technical Investment Income flows through
 Balance on Technical Account into Result Before Tax).
+
+---
+
+## App sections
+
+### Market View
+- **Major Industry Loss Events (2015–2025)** — sourced from `13_major_loss_events.csv`
+- **Lloyd's Loss Drivers (2015–2025)** — sourced from `14_lloyds_loss_drivers.csv`
+- **Market-Wide Combined Ratio** — bar chart by year
+- **Market GWP & Pre-tax Margin** — dual-axis bar+line chart
+- **Loss Ratio vs Expense Ratio** — stacked bar by year
+- **Line of Business Performance — Market View** — 4 charts (GWP by LOB, gross combined ratio,
+  gross loss ratio, net UW margin) + summary table; computed from `08_segmental_kpis.csv`;
+  LOB filter defaults to Casualty, MAT, Motor, Property, Reinsurance (excludes Energy/Life)
+- **Syndicate Profitability vs Volatility** — scatter plot
+- **Syndicate Pre-tax Margin Distribution** — boxplot by year
+- **Market Financial Investments & Asset Return** — dual-axis bar+line
+
+### Syndicate View
+- Filtered by managing agent or syndicate number
+- P&L, balance sheet, combined ratio, LOB breakdown, percentile rankings, asset returns
 
 ---
 
@@ -163,28 +206,50 @@ Balance on Technical Account into Result Before Tax).
 
 When new Lloyd's data becomes available (typically Q2 of the following year):
 
-### 1 — Update syndicate underwriting data (files 07–12)
+### 1 — Copy the new Excel file
 
-Replace the existing CSVs with new versions that include the additional year's rows.
-The app will automatically detect the new year range from `07_whole_account_kpis.csv`.
+Copy the new ICMR Excel file (e.g. `Longtail_ICMRData_2015-2026_YYYY-MM-DD.xlsx`) from the
+F: drive share into `/srv/docker/lid`. The share is mounted at `/mnt/ltre-f-drive`.
 
-### 2 — Update market annual summary (file 09)
+```bash
+cp "/mnt/ltre-f-drive/Underwriting/Cedants/P&C/Lloyd's/20XX YoA/ICMR/ICMR Materials/Longtail_ICMRData_2015-20XX_YYYY-MM-DD.xlsx" /srv/docker/lid/
+```
 
-Add one row for the new year with market-wide combined ratio, GWP, and pre-tax margin
-figures from the Lloyd's Annual Report.
+### 2 — Run the data processing script
 
-### 3 — Update major loss events (file 13)
+Update the `EXCEL_FILE` path in `process_data.py` to point to the new Excel file, then run:
+
+```bash
+python3 /srv/docker/lid/process_data.py
+```
+
+This regenerates CSV files **01–12** automatically. It handles:
+- Column renames from the new Excel format (see column mapping section below)
+- KPI derivation (ratios, percentile ranks, GWP buckets)
+- Exchange rate lookup from the Excel `Exchange rates` sheet
+
+### 3 — Update exchange rates (file 16)
+
+Append new rows to `16_fx_rate_used.csv` for the new year (EUR, GBP, USD rates from
+`05_exchange_rates.csv`). Format:
+
+```
+currency,year,fx_rate_usd_eur_per_gbp,source
+USD,20XX,1.XX,05_exchange_rates.csv (average_fx) — from Longtail_ICMRData_2015-20XX_YYYY-MM-DD.xlsx
+```
+
+### 4 — Update major loss events (file 13)
 
 Visit [reinsurancene.ws/insurance-industry-losses-events-data](https://www.reinsurancene.ws/insurance-industry-losses-events-data/)
-and append new events using the same column format:
+and append new events at the top of the file. Column format:
 
 ```
 loss_name, month_year, industry_loss, economic_loss, loss_type, notes, year
 ```
 
-### 4 — Update Lloyd's loss drivers (file 14)
+### 5 — Update Lloyd's loss drivers (file 14)
 
-Add up to 5 rows for the new year. Column format:
+Add up to 5 rows for the new year from the Lloyd's Annual Report. Column format:
 
 ```
 year, rank, driver_name, driver_type, primary_lob, lloyds_loss_gbp_m,
@@ -194,19 +259,57 @@ total_market_loss_usd_bn, notes, source
 `driver_type` values: `Natural Catastrophe`, `Man-made Event`, `Attritional & Pricing`,
 `Reserve Strengthening`, `Investment Loss`
 
-### 5 — Update asset return data (file 15)
+### 6 — Update asset return data (file 15)
 
 Add new rows to `15_Synd_Asset_Return.csv` from the syndicate annual accounts, then
 re-run the conversion script to regenerate `15_Synd_Asset_Return_converted.csv`.
 
-FX rates for new years should be added to `05_exchange_rates.csv` first, then
-`16_fx_rate_used.csv` will be updated accordingly.
+### 7 — Update app labels
 
-### 6 — Rebuild and redeploy
+In `syndicate_explorer.py`, update the two expander labels (search for `2015–`):
+- `Major Industry Loss Events (2015–20XX)`
+- `Lloyd's Loss Drivers (2015–20XX)`
+
+### 8 — Rebuild and redeploy
 
 ```bash
 cd /srv/docker/lid && docker compose up --build -d
 ```
 
-The app title year ranges (e.g. "2015–2024") are hardcoded in markdown headings in
-`syndicate_explorer.py` — search for `2015–2024` and update to the new range if needed.
+---
+
+## process_data.py — column mapping reference
+
+The new Excel format (from 2025 refresh onwards) uses different column names from the
+legacy format used in the existing CSVs. Key renames applied by `process_data.py`:
+
+| New Excel column | CSV column | File(s) |
+|---|---|---|
+| `net_claims_incurred` | `net_claims_incrred` | 01, 02 (typo preserved for compatibility) |
+| `ri_share_claims_outstanding` | `ri_assets` | 01, 02 |
+| `ri_unearned_premium` | `unearned_premium` | 01, 02 |
+| `total_liabilities_capital_and_reserves` | `total_liabilities` | 01, 02 |
+
+The `Whole Account GBPk` sheet in the new Excel has expanded columns (acquisition cost
+detail, sub-expense lines, etc.) that are not carried through to the CSVs — only the
+columns matching the legacy CSV schema are selected.
+
+### Percentile rank formula
+
+```
+percentile_rank = rank_within_year / total_syndicates_in_year × 100
+```
+
+Where `rank_within_year` is ascending rank by `pretax_margin` (1 = lowest margin),
+`total_syndicates_in_year` is the count of all syndicates including those with NaN
+pretax_margin. Verified to match pre-existing data exactly.
+
+### GWP size buckets
+
+| Bucket label | GWP range (GBP thousands) |
+|---|---|
+| Micro (<50m) | < 50,000 |
+| Small (50-200m) | 50,000 – 199,999 |
+| Mid (200-500m) | 200,000 – 499,999 |
+| Large (500m-1bn) | 500,000 – 999,999 |
+| XL (>1bn) | ≥ 1,000,000 |

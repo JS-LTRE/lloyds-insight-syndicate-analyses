@@ -20,3 +20,6 @@ USD,2021,1.38,05_exchange_rates.csv (average_fx) — confirmed against 01 vs 02 
 USD,2022,1.24,05_exchange_rates.csv (average_fx) — confirmed against 01 vs 02 implied rates
 USD,2023,1.24,05_exchange_rates.csv (average_fx) — confirmed against 01 vs 02 implied rates
 USD,2024,1.28,05_exchange_rates.csv (average_fx) — confirmed against 01 vs 02 implied rates
+EUR,2025,1.17,05_exchange_rates.csv (average_fx) — from Longtail_ICMRData_2015-2025_2026-04-15.xlsx
+GBP,2025,1.0,05_exchange_rates.csv (average_fx) — from Longtail_ICMRData_2015-2025_2026-04-15.xlsx
+USD,2025,1.32,05_exchange_rates.csv (average_fx) — from Longtail_ICMRData_2015-2025_2026-04-15.xlsx

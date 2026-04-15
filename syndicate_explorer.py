@@ -212,7 +212,7 @@ if view_mode == "Market":
         </table></div>"""
 
     # ── Major loss events table ────────────────────────────────────────────────
-    with st.expander("Major Industry Loss Events (2015–2024)", expanded=False):
+    with st.expander("Major Industry Loss Events (2015–2025)", expanded=False):
         st.caption("Source: [reinsurancene.ws](https://www.reinsurancene.ws/insurance-industry-losses-events-data/) · Industry insured loss estimates at time of reporting")
 
         loss_years = sorted(losses[losses["year"].between(year_min, year_max)]["year"].unique(), reverse=True)
@@ -258,7 +258,7 @@ if view_mode == "Market":
         ), unsafe_allow_html=True)
 
     # ── Lloyd's loss drivers table ─────────────────────────────────────────────
-    with st.expander("Lloyd's Loss Drivers (2015–2024)", expanded=False):
+    with st.expander("Lloyd's Loss Drivers (2015–2025)", expanded=False):
         st.caption("Source: Lloyd's Annual Reports · GBP figures are Lloyd's net estimates where available")
 
         driver_years = sorted(drivers[drivers["year"].between(year_min, year_max)]["year"].unique(), reverse=True)
@@ -344,6 +344,137 @@ if view_mode == "Market":
     fig.update_layout(barmode="stack", height=340, yaxis_title="Ratio (%)",
                       xaxis=XAXIS_YEARS, legend=dict(font_size=10))
     st.plotly_chart(fig, use_container_width=True)
+
+    st.divider()
+
+    # ── LOB Performance — Market View ─────────────────────────────────────────
+    st.markdown("### Line of Business Performance — Market View")
+    st.caption("Gross basis (pre-reinsurance). Aggregated from Lloyd's syndicate segmental accounts.")
+
+    seg_gbp = seg[seg["currency"] == "GBP"].copy()
+    lob_mkt = (
+        seg_gbp.groupby(["year", "aggregate_lob"])
+        .agg(
+            gwp        =("gross_written_premium", "sum"),
+            gep        =("gross_earned_premium",  "sum"),
+            incurred   =("gross_incurred",         "sum"),
+            opex       =("operating_expenses",     "sum"),
+            net_uw     =("net_uw_result",           "sum"),
+            n_syndicates=("syndicate",             "nunique"),
+        )
+        .reset_index()
+    )
+    _gep = lob_mkt["gep"].where(lob_mkt["gep"] != 0)
+    lob_mkt["gross_loss_ratio"]     = (lob_mkt["incurred"].abs() / _gep * 100).round(1)
+    lob_mkt["gross_expense_ratio"]  = (lob_mkt["opex"].abs()     / _gep * 100).round(1)
+    lob_mkt["gross_combined_ratio"] = (lob_mkt["gross_loss_ratio"] + lob_mkt["gross_expense_ratio"]).round(1)
+    lob_mkt["net_uw_margin"]        = (lob_mkt["net_uw"]           / _gep * 100).round(1)
+    lob_mkt["gwp_bn"]               = lob_mkt["gwp"] / 1_000_000
+    lob_mkt["gwp_share_pct"]        = (
+        lob_mkt.groupby("year")["gwp"].transform(lambda x: x / x.sum() * 100)
+    ).round(1)
+
+    _all_lobs     = sorted(lob_mkt["aggregate_lob"].unique())
+    _default_lobs = [l for l in _all_lobs if l not in ("Life", "Energy")]
+    sel_lobs = st.multiselect(
+        "Lines of Business", _all_lobs, default=_default_lobs, key="lob_mkt_filter"
+    )
+    if not sel_lobs:
+        sel_lobs = _all_lobs
+    lob_filt = lob_mkt[lob_mkt["aggregate_lob"].isin(sel_lobs)]
+
+    _lob_colors = px.colors.qualitative.Plotly
+
+    col_l1, col_l2 = st.columns(2)
+
+    with col_l1:
+        st.markdown("**GWP by LOB (£bn)**")
+        fig = px.bar(
+            lob_filt, x="year", y="gwp_bn", color="aggregate_lob",
+            barmode="stack",
+            labels={"gwp_bn": "GWP (£bn)", "aggregate_lob": "LOB", "year": "Year"},
+            color_discrete_sequence=_lob_colors,
+        )
+        fig.update_layout(height=360, xaxis=XAXIS_YEARS,
+                          legend=dict(font_size=10, title="LOB"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col_l2:
+        st.markdown("**Gross Combined Ratio by LOB**")
+        fig = px.line(
+            lob_filt.dropna(subset=["gross_combined_ratio"]),
+            x="year", y="gross_combined_ratio", color="aggregate_lob",
+            markers=True,
+            labels={"gross_combined_ratio": "Gross Combined Ratio (%)",
+                    "aggregate_lob": "LOB", "year": "Year"},
+            color_discrete_sequence=_lob_colors,
+        )
+        fig.add_hline(y=100, line_dash="dash", line_color="red", annotation_text="100%")
+        fig.update_layout(height=360, xaxis=XAXIS_YEARS,
+                          legend=dict(font_size=10, title="LOB"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    col_l3, col_l4 = st.columns(2)
+
+    with col_l3:
+        st.markdown("**Gross Loss Ratio by LOB**")
+        fig = px.line(
+            lob_filt.dropna(subset=["gross_loss_ratio"]),
+            x="year", y="gross_loss_ratio", color="aggregate_lob",
+            markers=True,
+            labels={"gross_loss_ratio": "Gross Loss Ratio (%)",
+                    "aggregate_lob": "LOB", "year": "Year"},
+            color_discrete_sequence=_lob_colors,
+        )
+        fig.update_layout(height=360, xaxis=XAXIS_YEARS,
+                          legend=dict(font_size=10, title="LOB"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col_l4:
+        st.markdown("**Net Underwriting Margin by LOB**")
+        fig = px.line(
+            lob_filt.dropna(subset=["net_uw_margin"]),
+            x="year", y="net_uw_margin", color="aggregate_lob",
+            markers=True,
+            labels={"net_uw_margin": "Net UW Margin (%)",
+                    "aggregate_lob": "LOB", "year": "Year"},
+            color_discrete_sequence=_lob_colors,
+        )
+        fig.add_hline(y=0, line_dash="dash", line_color="red", annotation_text="Break-even")
+        fig.update_layout(height=360, xaxis=XAXIS_YEARS,
+                          legend=dict(font_size=10, title="LOB"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    # LOB summary table — latest year
+    _lob_latest_yr = int(lob_mkt["year"].max())
+    st.markdown(f"**LOB Performance Summary — {_lob_latest_yr}**")
+    _lob_latest = lob_filt[lob_filt["year"] == _lob_latest_yr].sort_values("gwp", ascending=False)
+
+    _lob_rows = ""
+    for _, r in _lob_latest.iterrows():
+        cr   = r["gross_combined_ratio"]
+        lr   = r["gross_loss_ratio"]
+        er   = r["gross_expense_ratio"]
+        um   = r["net_uw_margin"]
+        cr_color = "salmon" if (pd.notna(cr) and cr > 100) else "inherit"
+        _lob_rows += (
+            f"<tr>"
+            f"<td><b>{r['aggregate_lob']}</b></td>"
+            f"<td style='text-align:center'>{int(r['n_syndicates'])}</td>"
+            f"<td style='text-align:right'>£{r['gwp_bn']:.2f}bn</td>"
+            f"<td style='text-align:center'>{r['gwp_share_pct']:.1f}%</td>"
+            f"<td style='text-align:center'>{f'{lr:.1f}%' if pd.notna(lr) else '—'}</td>"
+            f"<td style='text-align:center'>{f'{er:.1f}%' if pd.notna(er) else '—'}</td>"
+            f"<td style='text-align:center;color:{cr_color}'><b>{f'{cr:.1f}%' if pd.notna(cr) else '—'}</b></td>"
+            f"<td style='text-align:center'>{f'{um:.1f}%' if pd.notna(um) else '—'}</td>"
+            f"</tr>"
+        )
+    st.markdown(_html_table(
+        [("LOB", "left"), ("Syndicates", "center"), ("GWP", "right"),
+         ("Market Share", "center"), ("Gross Loss Ratio", "center"),
+         ("Expense Ratio", "center"), ("Combined Ratio", "center"), ("Net UW Margin", "center")],
+        _lob_rows, max_height=300,
+    ), unsafe_allow_html=True)
 
     st.divider()
 
