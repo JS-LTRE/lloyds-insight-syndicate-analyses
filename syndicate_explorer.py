@@ -57,6 +57,11 @@ st.markdown("""
 <style>
 h1 { border-bottom: 2px solid #d0d0d0; padding-bottom: 0.3rem; }
 </style>
+<div style="position:fixed; bottom:10px; left:14px; z-index:9999;
+            font-size:0.72rem; color:#888; line-height:1.4;">
+    Source: ICMR.Data; <a href="https://insurancecapitalmarkets.com"
+    style="color:#888;" target="_blank">https://insurancecapitalmarkets.com</a>
+</div>
 """, unsafe_allow_html=True)
 
 @st.cache_data
@@ -68,9 +73,12 @@ def load_data():
     rnk  = pd.read_csv(os.path.join(DATA_DIR, "12_syndicate_percentile_rankings.csv"))
     losses  = pd.read_csv(os.path.join(DATA_DIR, "13_major_loss_events.csv"))
     drivers = pd.read_csv(os.path.join(DATA_DIR, "14_lloyds_loss_drivers.csv"))
-    return kpi, seg, mkt, lob, rnk, losses, drivers
+    asset_ret = pd.read_csv(os.path.join(DATA_DIR, "15_Synd_Asset_Return_converted.csv"))
+    asset_ret.columns = asset_ret.columns.str.strip()
+    asset_ret["Synd"] = pd.to_numeric(asset_ret["Synd"], errors="coerce")
+    return kpi, seg, mkt, lob, rnk, losses, drivers, asset_ret
 
-kpi, seg, mkt, lob, rnk, losses, drivers = load_data()
+kpi, seg, mkt, lob, rnk, losses, drivers, asset_ret = load_data()
 
 year_min, year_max = int(kpi["year"].min()), int(kpi["year"].max())
 ALL_YEARS   = list(range(year_min, year_max + 1))
@@ -502,6 +510,51 @@ _Result Before Tax includes underwriting profit, investment income, FX gains/los
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    st.divider()
+
+    # ── Market-wide Financial Investments & Asset Return ─────────────────────
+    st.markdown("### Market Financial Investments & Asset Return")
+    st.caption("Formula: Asset Return (%) = Technical Investment Income ÷ Financial Investments × 100")
+
+    mkt_inv = (kpi.groupby("year")
+               .agg(financial_investments=("financial_investments", "sum"),
+                    technical_investment_income=("technical_investment_income", "sum"))
+               .reset_index())
+    mkt_inv["asset_return"] = (
+        mkt_inv["technical_investment_income"] / mkt_inv["financial_investments"] * 100
+    ).replace([float("inf"), float("-inf")], float("nan"))
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=mkt_inv["year"],
+        y=mkt_inv["financial_investments"] / 1_000_000,
+        name="Financial Investments (£bn)",
+        marker_color="steelblue",
+        opacity=0.6,
+        yaxis="y1",
+        hovertemplate="Year: %{x}<br>Financial Investments: £%{y:,.2f}bn<extra></extra>",
+    ))
+    fig.add_trace(go.Scatter(
+        x=mkt_inv["year"],
+        y=mkt_inv["asset_return"],
+        name="Asset Return (%)",
+        mode="lines+markers",
+        line=dict(color="darkorange", width=2),
+        marker=dict(size=8),
+        yaxis="y2",
+        hovertemplate="Year: %{x}<br>Asset Return: %{y:.2f}%<extra></extra>",
+    ))
+    fig.update_layout(
+        height=420,
+        yaxis=dict(title="Financial Investments (£bn)", side="left"),
+        yaxis2=dict(title="Asset Return (%)", side="right", overlaying="y",
+                    tickformat=".1f", showgrid=False),
+        legend=dict(font_size=10, orientation="h", yanchor="bottom", y=1.02),
+        xaxis=XAXIS_YEARS,
+        bargap=0.3,
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
     st.stop()
 
 # ── SYNDICATE VIEW ────────────────────────────────────────────────────────────
@@ -511,8 +564,8 @@ if not sel_synd:
     st.info("Select one or more syndicates (or a managing agent) in the sidebar to get started.")
     st.stop()
 
-df   = kpi[(kpi["syndicate"].isin(sel_synd)) & (kpi["year"].between(*yr_range))].copy()
-dseg = seg[(seg["syndicate"].isin(sel_synd)) & (seg["year"].between(*yr_range))].copy()
+df   = kpi[(kpi["syndicate"].isin(sel_synd)) & (kpi["year"].between(*yr_range))].copy().sort_values(["syndicate", "year"])
+dseg = seg[(seg["syndicate"].isin(sel_synd)) & (seg["year"].between(*yr_range))].copy().sort_values(["syndicate", "year"])
 
 multi = len(sel_synd) > 1
 
@@ -737,6 +790,44 @@ where each syndicate's margin falls relative to its peers:
         plot_bgcolor="white",
         yaxis_gridcolor="rgba(200,200,200,0.5)",
         xaxis_gridcolor="rgba(200,200,200,0.5)",
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.divider()
+    st.markdown("**Financial Investments & Asset Return**")
+    st.caption("Formula: Asset Return (%) = Technical Investment Income ÷ Financial Investments × 100")
+
+    fig = go.Figure()
+    for s in sel_synd:
+        d   = df[df["syndicate"] == s]
+        lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
+        fig.add_trace(go.Bar(
+            x=d["year"], y=d["financial_investments"] / 1000,
+            name=f"{lbl} — Fin. Investments",
+            marker_color=COLOR_MAP[s], opacity=0.5,
+            yaxis="y1",
+            hovertemplate="Year: %{x}<br>Financial Investments: £%{y:,.1f}m<extra></extra>",
+        ))
+        asset_return_pct = (d["technical_investment_income"] / d["financial_investments"] * 100).replace(
+            [float("inf"), float("-inf")], float("nan"))
+        fig.add_trace(go.Scatter(
+            x=d["year"], y=asset_return_pct,
+            name=f"{lbl} — Asset Return",
+            mode="lines+markers",
+            line=dict(color=COLOR_MAP[s], width=2, dash="dot"),
+            marker=dict(size=7),
+            yaxis="y2",
+            hovertemplate="Year: %{x}<br>Asset Return: %{y:.2f}%<extra></extra>",
+        ))
+    fig.update_layout(
+        height=420,
+        yaxis=dict(title="Financial Investments (£m)", side="left"),
+        yaxis2=dict(title="Asset Return (%)", side="right", overlaying="y",
+                    tickformat=".1f", showgrid=False),
+        legend=dict(font_size=10, orientation="h", yanchor="bottom", y=1.02),
+        xaxis=XAXIS_YEARS,
+        bargap=0.3,
+        barmode="group",
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -982,6 +1073,7 @@ with tab4:
         fig.update_layout(height=350, yaxis_title="Total Assets / NEP (x)",
                           legend=dict(font_size=10), xaxis=XAXIS_YEARS)
         st.plotly_chart(fig, use_container_width=True)
+
 
 # ── Tab 5: Raw Data ───────────────────────────────────────────────────────────
 with tab5:
