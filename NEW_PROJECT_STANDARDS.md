@@ -183,13 +183,13 @@ location /<app-name>/ {
 | 8005 | UW Folder Scanner (Slack websocket) |
 | 8012 | Lloyd's Data Ingestion |
 | 8080 | MCP Gateway (API-only, not browser-routed) |
-| 8501 | LID Streamlit internal (behind LID nginx) |
-| 8502 | LID nginx (non-standard, avoid for new apps) |
-| 8503 | LID dev instance |
+| 8501 | LISA Streamlit internal (behind LISA nginx) |
+| 8502 | LISA nginx (non-standard, avoid for new apps) |
+| 8503 | LISA dev instance |
 
 **Do not expose container ports on `0.0.0.0`** — bind to `127.0.0.1` only.
 
-**Non-standard exception:** The Lloyd's Insight Dashboard (`lid`) currently exposes its
+**Non-standard exception:** LISA (`lid`) currently exposes its
 own nginx container on port 8502. The host nginx also routes `/lloyds-insight-syndicate-analysis/`
 to port 8502. New apps should not replicate this double-proxy pattern — bind Streamlit
 directly to a localhost port and route via the single host nginx.

@@ -17,7 +17,7 @@ application server.
 |---|---|---|---|---|
 | [Lloyd's Data Ingestion](#lloydS-data-ingestion) | `/lloyds-data-ingestion` | 8012 | FastAPI + React + Vite | — |
 | [LEAP](#leap) | `/leap` | 8001 | FastAPI + React + Vite | Ethan Kochav |
-| [Lloyd's Insight Dashboard (LID)](#lloyds-insight-dashboard-lid) | `/lloyds-insight-syndicate-analysis` | 8502 | Streamlit | Jianhua Siew |
+| [LISA (Lloyd's Insight and Syndicate Analysis)](#lisa-lloyds-insight-and-syndicate-analysis) | `/lloyds-insight-syndicate-analysis` | 8502 | Streamlit | Jianhua Siew |
 | [NDA Database](#nda-database) | `/nda-database` | 8002 | FastAPI + React + Vite | Matthew Evans |
 | [Underwriting Folder Scanner / Atlas](#underwriting-folder-scanner--atlas) | `/underwriting-folder-scanner` | 8004/8005 | FastAPI + marker-pdf + Snowflake | Matthew Evans |
 | [UW Memo Writer](#uw-memo-writer) | `/uw-memo-writer` | 8000 | FastAPI + React + Vite + Celery | Matthew Evans |
@@ -124,9 +124,7 @@ op run --env-file=.env.production -- docker compose up -d --build
 
 ---
 
-## Lloyd's Insight Dashboard (LID)
-
-**Full name:** Lloyd's Insight and Syndicate Analysis
+## LISA (Lloyd's Insight and Syndicate Analysis)
 
 ### Purpose
 
@@ -167,7 +165,7 @@ and LOB market-level performance — without requiring access to raw ICMR data f
 ```
 Browser
   └─► host nginx (port 80) → /lloyds-insight-syndicate-analysis/
-        └─► LID nginx container (port 8502)
+        └─► LISA nginx container (port 8502)
               └─► Streamlit app (internal port 8501)
                     └─► CSV files baked into Docker image
 ```
@@ -241,8 +239,8 @@ guide. Key steps:
 - **Dockerfile HEALTHCHECK** uses wrong base URL path — `docker ps` reports unhealthy
   but the app is working. Verify manually using the `urllib.request` health check
   documented in CLAUDE.md.
-- **Double-proxy architecture** (host nginx → LID nginx → Streamlit) is non-standard
-  and fragile. Consider simplifying by removing the LID nginx container and binding
+- **Double-proxy architecture** (host nginx → LISA nginx → Streamlit) is non-standard
+  and fragile. Consider simplifying by removing the LISA nginx container and binding
   Streamlit directly to a localhost port.
 - **GitHub repo under personal account** `JS-LTRE` — should migrate to `ME-LTRE`.
 - **`COPY . .` includes source Excel files and scripts** in the Docker image, adding
@@ -640,7 +638,7 @@ None.
 
 Assessment as of April 2026. Status: **Met** | **Partial** | **Not met** | **N/A**
 
-| Standard | LEAP | LID | NDA Database | UW Folder Scanner | UW Memo Writer | MCP Gateway |
+| Standard | LEAP | LISA | NDA Database | UW Folder Scanner | UW Memo Writer | MCP Gateway |
 |---|---|---|---|---|---|---|
 | **1Password** | Met | N/A | Met | Met | Met | Met |
 | **Snowflake** | Met | N/A — CSV-only | Met | Met | N/A — no DB | N/A — Azure SQL |
@@ -656,10 +654,10 @@ Assessment as of April 2026. Status: **Met** | **Partial** | **Not met** | **N/A
 
 ### Compliance notes
 
-**1Password — LID (N/A):** The app has no secrets; this is a legitimate exception, not
+**1Password — LISA (N/A):** The app has no secrets; this is a legitimate exception, not
 an oversight. No credentials of any kind are required.
 
-**Snowflake — LID (N/A):** Data is static year-end snapshots from Lloyd's reports.
+**Snowflake — LISA (N/A):** Data is static year-end snapshots from Lloyd's reports.
 A database would add operational complexity with no benefit. Pre-generated CSVs
 bundled into the Docker image are the correct architecture for this use case.
 
@@ -667,7 +665,7 @@ bundled into the Docker image are the correct architecture for this use case.
 generic/default schema — rather than a dedicated named schema. All new applications must
 use their own named schema.
 
-**Standard URL — LID (Partial):** LID is accessible at the standard path
+**Standard URL — LISA (Partial):** LISA is accessible at the standard path
 (`http://svralia01.longtailre.com/lloyds-insight-syndicate-analysis`) but also exposes
 port 8502 directly. The host nginx routes to port 8502 rather than directly to the
 container, creating a double-proxy. New apps should not replicate this.
@@ -676,17 +674,17 @@ container, creating a double-proxy. New apps should not replicate this.
 under the `ME-LTRE` organisation. This is the single most widespread compliance gap and
 should be addressed as a one-off migration task.
 
-**LAN mount — LID (Partial):** The LAN share is used only for annual data refresh and
+**LAN mount — LISA (Partial):** The LAN share is used only for annual data refresh and
 is accessed from the host — not mounted into any container. This is a documented and
 justified exception. If refresh were automated, the mount would need to follow the
 standard containerised pattern.
 
 **LAN mount — NDA Database (Partial):** The LAN mount is used only by the crawler
 service (not the main app container), but the crawler is a defined service in
-`docker-compose.yml` and the mount is documented. This is closer to compliant than LID's
+`docker-compose.yml` and the mount is documented. This is closer to compliant than LISA's
 approach.
 
-**CLAUDE.md — Most apps (No):** Only LID and MCP Gateway have CLAUDE.md files. All
+**CLAUDE.md — Most apps (No):** Only LISA and MCP Gateway have CLAUDE.md files. All
 other apps should add one to improve AI-assisted development and onboarding.
 
 ---
@@ -703,9 +701,9 @@ other apps should add one to improve AI-assisted development and onboarding.
 | 8005 | `127.0.0.1` | UW Folder Scanner (Slack websocket) | |
 | 8012 | — | Lloyd's Data Ingestion | Location unknown |
 | 8080 | `127.0.0.1` | MCP Gateway | API-only; not browser-accessible |
-| 8501 | internal | LID Streamlit | Internal to LID Docker network |
-| 8502 | `0.0.0.0` | LID nginx container | Non-standard; also proxied via port 80 |
-| 8503 | `0.0.0.0` | LID dev instance | Non-standard |
+| 8501 | internal | LISA Streamlit | Internal to LISA Docker network |
+| 8502 | `0.0.0.0` | LISA nginx container | Non-standard; also proxied via port 80 |
+| 8503 | `0.0.0.0` | LISA dev instance | Non-standard |
 
 ---
 
@@ -718,7 +716,7 @@ cd /srv/docker/<app>
 git pull
 # For apps with 1Password secrets:
 op run --env-file=.env.tpl -- docker compose up -d --build
-# For LID (no secrets):
+# For LISA (no secrets):
 docker compose up --build -d
 ```
 
