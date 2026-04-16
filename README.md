@@ -13,7 +13,7 @@ sheet, segmental line-of-business, and market benchmarking views.
 | **1Password** | N/A — no secrets | App requires no credentials; all data is pre-generated CSV files |
 | **Snowflake** | N/A — no database | CSV-only data model; see [Non-standard exceptions](#non-standard-exceptions) |
 | **Monday.com** | N/A — not applicable | Pure analytics tool with no CRM/PAS dependency |
-| **Web route** | Partial — port non-standard | Served at `/lloyds-insight-syndicate-analysis` but on port **8502**, not the standard path on 80/443 |
+| **Web route** | Partial — double-proxy | Accessible at standard path `http://svralia01.longtailre.com/lloyds-insight-syndicate-analysis` (port 80) via host nginx, but also directly on port **8502**. Host nginx proxies to the LID nginx container (8502) which then proxies to Streamlit — a non-standard double-proxy pattern |
 | **GitHub org** | Non-compliant | Repo is under `JS-LTRE` (personal account), not `ME-LTRE` |
 | **Style** | Partial | Uses Streamlit; does not follow the Lloyd's Data Ingestion React/Vite design language |
 | **LAN fileshare** | Compliant (data refresh only) | `/mnt/ltre-f-drive` mounted read-only on host; not mounted into Docker containers |
@@ -273,6 +273,7 @@ project:
 |---|---|---|
 | Dockerfile HEALTHCHECK uses wrong base URL path (`/_stcore/health` without prefix) | Container reports `unhealthy` in `docker ps` | Verify health manually using the Python `urllib.request` command shown above; ignore Docker's reported status |
 | `COPY . .` copies all files into the image including source Excel files and scripts | Larger image size (~50–100 MB overhead) | No functional impact; add a `.dockerignore` in a future pass to exclude `*.xlsx`, `process_data.py`, shell scripts |
+| Double-proxy routing: host nginx → LID nginx container (8502) → Streamlit (8501) | More moving parts than necessary; non-standard vs other apps | Functional; could be simplified by removing the LID nginx container and binding Streamlit to a localhost port, as other apps do |
 | Local folder name `lid` does not match canonical app name | Minor naming inconsistency | No functional impact |
 | GitHub repo under `JS-LTRE` (personal account) | Non-compliant with ME-LTRE standard | Transfer repo to `ME-LTRE` organisation when convenient |
 | 2025 Lloyd's Annual Report does not publish granular per-event GBP loss figures | `14_lloyds_loss_drivers.csv` rows for 2025 have blank `lloyds_loss_gbp_m` for non-wildfire events | Update when Lloyd's publishes supplementary data; California Wildfires entry uses $2.3bn Lloyd's market estimate converted at 1.32 USD/GBP |
