@@ -1243,3 +1243,11 @@ reported in GBP thousands. Ratios are on a **net (post-reinsurance)** basis unle
     )
     st.download_button("Download filtered data (CSV)", df.to_csv(index=False),
                        file_name="filtered_syndicates.csv", mime="text/csv")
+
+    st.divider()
+    st.markdown("**Annual Accounts**")
+    st.markdown(
+        "Syndicate annual reports and accounts are published by Lloyd's and available at: "
+        "[lloyds.com — Syndicate Reports and Accounts]"
+        "(https://www.lloyds.com/about-lloyds/investor-relations/syndicate-reports-and-accounts)"
+    )
