@@ -14,7 +14,7 @@ sheet, segmental line-of-business, and market benchmarking views.
 | **Snowflake** | N/A — no database | CSV-only data model; see [Non-standard exceptions](#non-standard-exceptions) |
 | **Monday.com** | N/A — not applicable | Pure analytics tool with no CRM/PAS dependency |
 | **Web route** | Partial — port non-standard | Served at `/lloyds-insight-syndicate-analysis` but on port **8502**, not the standard path on 80/443 |
-| **GitHub org** | Non-compliant | Repo is under `JS-LTRE` (personal account), not `ME-LTRE` |
+| **GitHub org** | Compliant (LTRE github) | Repo is under `JS-LTRE`, LTRE github |
 | **Style** | Partial | Uses Streamlit; does not follow the Lloyd's Data Ingestion React/Vite design language |
 | **LAN fileshare** | Compliant (data refresh only) | `/mnt/ltre-f-drive` mounted read-only on host; not mounted into Docker containers |
 
@@ -176,7 +176,7 @@ not need to be restarted when the Streamlit container is rebuilt.
 
 ## Annual data refresh
 
-Run once per year when new ICMR data is available (typically Q2):
+Run once per year when new ICMR data is available (typically end of Q1):
 
 ### 1 — Copy the new Excel file from the LAN share
 
@@ -261,7 +261,7 @@ project:
 | **Snowflake** | Not used | Data is static year-end snapshots from Lloyd's reports. A database would add operational complexity with no benefit; pre-generated CSVs bundled into the Docker image are sufficient. |
 | **1Password** | Not used | No application secrets are required — no database, no API keys, no external services. |
 | **Monday.com** | Not used | Pure analytics tool with no CRM/PAS/workflow dependency. |
-| **GitHub org** | `JS-LTRE` instead of `ME-LTRE` | Created under personal account; should be migrated to `ME-LTRE` in a future tidying pass. |
+| **GitHub org** | `JS-LTRE` | Created under LTRE github account. |
 | **Port** | 8502 (non-standard) | Avoids collision with other apps on `svralia01`; not served through the standard nginx 80/443 layer. |
 | **Framework** | Streamlit instead of React+Vite | Appropriate for a data analysis tool built by a single developer; the Lloyd's Data Ingestion design standard does not apply here. |
 
