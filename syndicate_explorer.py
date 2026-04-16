@@ -1241,8 +1241,13 @@ reported in GBP thousands. Ratios are on a **net (post-reinsurance)** basis unle
         }),
         use_container_width=True, hide_index=True
     )
-    st.download_button("Download filtered data (CSV)", df.to_csv(index=False),
-                       file_name="filtered_syndicates.csv", mime="text/csv")
+    st.divider()
+    st.caption(
+        "Source: ICMR Data (Lloyd's Insurance Capital Markets Research) · "
+        "[insurancecapitalmarkets.com](https://insurancecapitalmarkets.com) · "
+        "Data covers syndicate whole-account results as reported to Lloyd's. "
+        "All monetary values in GBP thousands."
+    )
 
     st.divider()
     st.markdown("**Annual Accounts**")
