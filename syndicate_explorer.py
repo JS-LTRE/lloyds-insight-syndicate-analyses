@@ -302,15 +302,15 @@ if view_mode == "Market":
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.markdown("**Market-Wide Combined Ratio**")
+        st.markdown("**Market-Wide Net Combined Ratio**")
         fig = go.Figure()
         fig.add_trace(go.Bar(x=mkt["year"], y=mkt["market_combined_ratio"],
                              marker_color=[
                                  "salmon" if v > 100 else "steelblue"
                                  for v in mkt["market_combined_ratio"]
-                             ], name="Combined Ratio"))
+                             ], name="Net Combined Ratio"))
         fig.add_hline(y=100, line_dash="dash", line_color="red", annotation_text="Break-even")
-        fig.update_layout(height=360, yaxis_title="Combined Ratio (%)",
+        fig.update_layout(height=360, yaxis_title="Net Combined Ratio (%)",
                           xaxis=XAXIS_YEARS, showlegend=False)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -334,12 +334,12 @@ if view_mode == "Market":
         st.plotly_chart(fig, use_container_width=True)
 
     # ── Loss vs Expense ratio trend ───────────────────────────────────────────
-    st.markdown("**Loss Ratio vs Expense Ratio (Market)**")
+    st.markdown("**Net Loss Ratio vs Expense Ratio (Market)**")
     fig = go.Figure()
     fig.add_trace(go.Bar(x=mkt["year"], y=mkt["market_loss_ratio"],
-                         name="Loss Ratio", marker_color="steelblue"))
+                         name="Net Loss Ratio", marker_color="steelblue"))
     fig.add_trace(go.Bar(x=mkt["year"], y=mkt["market_expense_ratio"],
-                         name="Expense Ratio", marker_color="lightsteelblue"))
+                         name="Expense Ratio (Net)", marker_color="lightsteelblue"))
     fig.add_hline(y=100, line_dash="dash", line_color="red", annotation_text="100%")
     fig.update_layout(barmode="stack", height=340, yaxis_title="Ratio (%)",
                       xaxis=XAXIS_YEARS, legend=dict(font_size=10))
@@ -472,7 +472,7 @@ if view_mode == "Market":
     st.markdown(_html_table(
         [("LOB", "left"), ("Syndicates", "center"), ("GWP", "right"),
          ("Market Share", "center"), ("Gross Loss Ratio", "center"),
-         ("Expense Ratio", "center"), ("Combined Ratio", "center"), ("Net UW Margin", "center")],
+         ("Gross Expense Ratio", "center"), ("Gross Combined Ratio", "center"), ("Net UW Margin", "center")],
         _lob_rows, max_height=300,
     ), unsafe_allow_html=True)
 
@@ -738,8 +738,8 @@ c1, c2, c3, c4, c5, c6 = st.columns(6)
 c1.metric("GWP",            fmt_gbp(snap["gross_written_premium"]))
 c2.metric("NEP",            fmt_gbp(snap["net_earned_premium"]))
 c3.metric("Pre-tax Result", fmt_gbp(snap["result_before_tax"]))
-c4.metric("Combined Ratio", f"{snap['combined_ratio']:.1f}%")
-c5.metric("Loss Ratio",     f"{snap['net_loss_ratio']:.1f}%")
+c4.metric("Net Combined Ratio", f"{snap['combined_ratio']:.1f}%")
+c5.metric("Net Loss Ratio",     f"{snap['net_loss_ratio']:.1f}%")
 c6.metric("Pre-tax Margin", f"{snap['pretax_margin']:.1f}%")
 c6.markdown("<span style='font-size:10px;font-style:italic;color:grey'>Includes Investment Income</span>", unsafe_allow_html=True)
 
@@ -967,7 +967,7 @@ with tab2:
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.markdown("**Combined Ratio vs Market**")
+        st.markdown("**Net Combined Ratio vs Market**")
         fig = go.Figure()
         fig.add_trace(go.Bar(x=mkt["year"], y=mkt["market_combined_ratio"],
                              name="Market Avg", marker_color="lightblue", opacity=0.6))
@@ -977,18 +977,18 @@ with tab2:
             fig.add_trace(go.Scatter(x=d["year"], y=d["combined_ratio"], name=lbl,
                                      mode="lines+markers", line=dict(color=COLOR_MAP[s])))
         fig.add_hline(y=100, line_dash="dash", line_color="red", annotation_text="100%")
-        fig.update_layout(height=380, yaxis_title="Combined Ratio (%)",
+        fig.update_layout(height=380, yaxis_title="Net Combined Ratio (%)",
                           legend=dict(font_size=10), xaxis=XAXIS_YEARS)
         st.plotly_chart(fig, use_container_width=True)
 
     with col_b:
-        st.markdown("**Loss Ratio vs Expense Ratio**")
+        st.markdown("**Net Loss Ratio vs Expense Ratio**")
         fig = go.Figure()
         for s in sel_synd:
             d   = df[df["syndicate"] == s].sort_values("year")
             lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
             fig.add_trace(go.Bar(x=d["year"], y=d["net_loss_ratio"],
-                                 name=f"Loss {lbl}", marker_color=COLOR_MAP[s], opacity=0.85,
+                                 name=f"Net Loss {lbl}", marker_color=COLOR_MAP[s], opacity=0.85,
                                  offsetgroup=str(s)))
             fig.add_trace(go.Bar(x=d["year"], y=d["expense_ratio"],
                                  name=f"Expense {lbl}", marker_color=COLOR_MAP[s], opacity=0.4,
@@ -1000,7 +1000,7 @@ with tab2:
     col_c, col_d = st.columns(2)
 
     with col_c:
-        st.markdown("**Loss Ratio vs Market**")
+        st.markdown("**Net Loss Ratio vs Market**")
         fig = go.Figure()
         fig.add_trace(go.Bar(x=mkt["year"], y=mkt["market_loss_ratio"],
                              name="Market Avg", marker_color="lightblue", opacity=0.6))
@@ -1009,7 +1009,7 @@ with tab2:
             lbl = f"{s} – {d['managing_agent'].iloc[-1]}" if not d.empty else str(s)
             fig.add_trace(go.Scatter(x=d["year"], y=d["net_loss_ratio"], name=lbl,
                                      mode="lines+markers", line=dict(color=COLOR_MAP[s])))
-        fig.update_layout(height=340, yaxis_title="Loss Ratio (%)",
+        fig.update_layout(height=340, yaxis_title="Net Loss Ratio (%)",
                           legend=dict(font_size=10), xaxis=XAXIS_YEARS)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -1102,10 +1102,10 @@ with tab3:
                 lob_kpi["combined"]      = lob_kpi["loss_ratio"] + lob_kpi["expense_ratio"]
                 lob_kpi = lob_kpi.replace([float("inf"), float("-inf")], float("nan")).dropna(subset=["combined"])
                 fig = go.Figure()
-                fig.add_trace(go.Bar(x=lob_kpi["aggregate_lob"], y=lob_kpi["loss_ratio"], name="Loss Ratio"))
-                fig.add_trace(go.Bar(x=lob_kpi["aggregate_lob"], y=lob_kpi["expense_ratio"], name="Expense Ratio"))
+                fig.add_trace(go.Bar(x=lob_kpi["aggregate_lob"], y=lob_kpi["loss_ratio"], name="Gross Loss Ratio"))
+                fig.add_trace(go.Bar(x=lob_kpi["aggregate_lob"], y=lob_kpi["expense_ratio"], name="Gross Expense Ratio"))
                 fig.add_hline(y=100, line_dash="dash", line_color="red")
-                fig.update_layout(barmode="stack", height=380, yaxis_title="Ratio (%)")
+                fig.update_layout(barmode="stack", height=380, yaxis_title="Gross Ratio (%)")
                 st.plotly_chart(fig, use_container_width=True)
 
         st.markdown("**LOB GWP**")
@@ -1116,7 +1116,7 @@ with tab3:
         fig.update_layout(height=350, yaxis_title="GWP (£m)", xaxis=XAXIS_YEARS)
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("**Loss Ratio & Expense Ratio by LOB Over Years**")
+        st.markdown("**Gross Loss Ratio & Expense Ratio by LOB Over Years**")
         ratio_trend = dseg.groupby(["year","aggregate_lob"]).agg(
             gep=("gross_earned_premium","sum"),
             inc=("gross_incurred","sum"),
@@ -1127,16 +1127,16 @@ with tab3:
 
         col_c, col_d = st.columns(2)
         with col_c:
-            st.markdown("*Loss Ratio by LOB*")
+            st.markdown("*Gross Loss Ratio by LOB*")
             fig = px.line(ratio_trend, x="year", y="loss_ratio", color="aggregate_lob",
-                          markers=True, labels={"loss_ratio": "Loss Ratio (%)", "aggregate_lob": "LOB"})
+                          markers=True, labels={"loss_ratio": "Gross Loss Ratio (%)", "aggregate_lob": "LOB"})
             fig.update_layout(height=340, legend=dict(font_size=10), xaxis=XAXIS_YEARS)
             st.plotly_chart(fig, use_container_width=True)
 
         with col_d:
-            st.markdown("*Expense Ratio by LOB*")
+            st.markdown("*Gross Expense Ratio by LOB*")
             fig = px.line(ratio_trend, x="year", y="expense_ratio", color="aggregate_lob",
-                          markers=True, labels={"expense_ratio": "Expense Ratio (%)", "aggregate_lob": "LOB"})
+                          markers=True, labels={"expense_ratio": "Gross Expense Ratio (%)", "aggregate_lob": "LOB"})
             fig.update_layout(height=340, legend=dict(font_size=10), xaxis=XAXIS_YEARS)
             st.plotly_chart(fig, use_container_width=True)
 
@@ -1148,8 +1148,8 @@ with tab3:
             min_expense_ratio=("expense_ratio","min"),
             max_expense_ratio=("expense_ratio","max"),
         ).round(1).reset_index()
-        stats.columns = ["LOB","Avg Loss Ratio","Min Loss Ratio","Max Loss Ratio",
-                               "Avg Expense Ratio","Min Expense Ratio","Max Expense Ratio"]
+        stats.columns = ["LOB","Avg Gross Loss Ratio","Min Gross Loss Ratio","Max Gross Loss Ratio",
+                               "Avg Gross Expense Ratio","Min Gross Expense Ratio","Max Gross Expense Ratio"]
         st.markdown("*Summary Stats (all available years)*")
         st.dataframe(stats, use_container_width=True, hide_index=True)
 
@@ -1209,6 +1209,28 @@ with tab4:
 # ── Tab 5: Raw Data ───────────────────────────────────────────────────────────
 with tab5:
     st.markdown("**Whole Account KPIs**")
+    st.caption("All ratios below are on a **net (post-reinsurance)** whole-account basis, "
+               "derived from Lloyd's syndicate annual accounts.")
+
+    with st.expander("Calculations used"):
+        st.markdown("""
+All metrics are derived from the syndicate's whole-account technical account and balance sheet,
+reported in GBP thousands. Ratios are on a **net (post-reinsurance)** basis unless otherwise noted.
+
+| Column | Calculation | Notes |
+|---|---|---|
+| `gross_written_premium` | As reported | Pre-reinsurance premium written |
+| `net_earned_premium` | As reported | Post-reinsurance earned premium; the denominator for all net ratios |
+| `result_before_tax` | As reported | Includes underwriting profit/loss, technical investment income, FX gains/losses, and other non-technical income |
+| `net_loss_ratio` | \|Net Claims Incurred\| ÷ Net Earned Premium × 100 | Net of reinsurance recoveries |
+| `expense_ratio` | \|Operating Expenses\| ÷ Net Earned Premium × 100 | Net basis; operating expenses include acquisition costs and administrative expenses net of RI commissions |
+| `combined_ratio` | Net Loss Ratio + Expense Ratio | Below 100% = underwriting profit |
+| `pretax_margin` | Result Before Tax ÷ Net Earned Premium × 100 | Includes investment income; a syndicate can show a positive pre-tax margin with a combined ratio above 100% if investment income is sufficient |
+| `ri_cession_rate` | \|Outward RI Premium\| ÷ Gross Written Premium × 100 | Proportion of gross premium ceded to reinsurers |
+| `reserve_ratio` | \|Claims Outstanding\| ÷ Net Earned Premium × 100 | Balance sheet reserve as a multiple of earned premium; higher values indicate longer-tail or more reserved books |
+| `total_assets` | As reported | Total balance sheet assets in GBP thousands |
+        """)
+
     disp_cols = ["year","syndicate","managing_agent","gross_written_premium","net_earned_premium",
                  "result_before_tax","net_loss_ratio","expense_ratio","combined_ratio",
                  "pretax_margin","ri_cession_rate","reserve_ratio","total_assets"]
